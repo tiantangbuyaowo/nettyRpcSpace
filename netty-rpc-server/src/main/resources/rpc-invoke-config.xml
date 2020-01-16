@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+	<context:property-placeholder location="classpath:rpc-server.properties" />
+	<bean id="rpcbean" class="org.tj.rpc.core.MessageKeyVal">
+		<property name="messageKeyVal">
+			<map>
+				<entry key="org.tj.rpc.service.Calculate">
+					<ref bean="calc" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="calc" class="org.tj.rpc.service.Impl.CalculateImpl" />
+
+	<bean id="rpcServer" class="org.tj.rpc.core.MessageRecvExecutor">
+		<constructor-arg name="serverAddress" value="${rpc.server.addr}" />
+	</bean>
+
+
+
+</beans>
